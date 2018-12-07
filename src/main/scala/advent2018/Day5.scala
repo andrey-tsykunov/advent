@@ -37,25 +37,4 @@ object Day5 {
 
     go(s.toCharArray).mkString
   }
-
-  def sim___(s: String): String = {
-
-    println(s)
-
-    val r = s.toStream
-      .zipAll(s.toStream.drop(1), '_', '_')
-      .zip('_' #:: s.toStream)
-      .collect { case ((c, c1), c2) if (c.toUpper != c1.toUpper && c != c1) && (c.toUpper != c2.toUpper && c != c2) =>
-        println(s"$c, $c1, $c2")
-        //val r = (c.toUpper == c1.toUpper && c != c1) || (c.toUpper == c2.toUpper && c != c2)
-        //println(r)
-        c
-      }
-      .mkString
-
-    println(">> "  + r)
-
-    if(r.length == s.length) r
-    else react(r)
-  }
 }
