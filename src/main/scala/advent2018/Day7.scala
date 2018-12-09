@@ -13,16 +13,16 @@ object Day7  {
     val workers = new WorkersTracker(workersCount, taskBase)
 
     var time = 0
-    while(tasks.hasTasks || workers.inProgress) {
+    while(tasks.available || workers.inProgress) {
 
-      while(workers.available(time) && tasks.hasTasks)
-        workers.addTask(tasks.nextTask, time)
+      while(workers.available(time) && tasks.available)
+        workers.addTask(tasks.next, time)
 
       if(workers.inProgress) {
-        val (task, nextTime) = workers.completeNext
+        val (task, nextTime) = workers.complete
 
         time = nextTime
-        tasks.completeTask(task)
+        tasks.complete(task)
       }
     }
 
@@ -31,27 +31,27 @@ object Day7  {
 
   def sort(edges: Seq[Edge]): Seq[Task] = {
 
-    val tracker = new TasksTracker(edges)
+    val tasks = new TasksTracker(edges)
 
     val r = Vector.newBuilder[Task]
 
-    while(tracker.hasTasks) {
-      val next = tracker.nextTask
+    while(tasks.available) {
+      val next = tasks.next
 
       r += next
-      tracker.completeTask(next)
+      tasks.complete(next)
     }
 
     r.result()
   }
 
   class WorkersTracker(workersCount: Int, taskBase: Int) {
-    val completionQueue =  new mutable.PriorityQueue[(Task, Int)]()(Ordering.by[(Task, Int), Int](-_._2))
-    val workers = Array.ofDim[Int](workersCount)
+    private val completionQueue =  new mutable.PriorityQueue[(Task, Int)]()(Ordering.by[(Task, Int), Int](-_._2))
+    private val workers = Array.ofDim[Int](workersCount)
 
-    def inProgress = completionQueue.nonEmpty
+    def inProgress: Boolean = completionQueue.nonEmpty
 
-    def addTask(task: Task, time: Int) = {
+    def addTask(task: Task, time: Int): Unit = {
 
       val size = taskBase + 1 + task.toInt - 'A'.toInt
 
@@ -61,7 +61,7 @@ object Day7  {
       completionQueue.enqueue((task, time + size))
     }
 
-    def completeNext = completionQueue.dequeue()
+    def complete = completionQueue.dequeue()
 
     def nextWorker(time: Int) = workers.zipWithIndex.find(_._1 <= time).map(_._2)
 
@@ -69,14 +69,14 @@ object Day7  {
   }
 
   class TasksTracker(edges: Seq[Edge]) {
-    val graph = fromEdges(edges)
-    val invertedGraph = fromEdges(edges.map(_.swap))
-    val roots = graph.keySet -- invertedGraph.keySet
+    private val graph = fromEdges(edges)
+    private val invertedGraph = fromEdges(edges.map(_.swap))
+    private val roots = graph.keySet -- invertedGraph.keySet
 
-    val tasksQueue = new mutable.PriorityQueue[Task]()(implicitly[Ordering[Task]].reverse)
+    private val tasksQueue = new mutable.PriorityQueue[Task]()(implicitly[Ordering[Task]].reverse)
     tasksQueue.enqueue(roots.toSeq: _*)
 
-    val completed = mutable.Set.empty[Task]
+    private val completed = mutable.Set.empty[Task]
 
     private def fromEdges(edges: Seq[Edge]): Map[Task, Set[Task]] = {
 
@@ -90,16 +90,16 @@ object Day7  {
         .withDefaultValue(Set.empty)
     }
 
-    def hasTasks: Boolean = tasksQueue.nonEmpty
+    def available: Boolean = tasksQueue.nonEmpty
 
-    def nextTask: Task = {
+    def next: Task = {
       val t = tasksQueue.dequeue()
 
-      if(completed.contains(t)) nextTask
+      if(completed.contains(t)) next
       else t
     }
 
-    def completeTask(task: Task): Unit = {
+    def complete(task: Task): Unit = {
       completed += task
 
       graph(task)
