@@ -11,11 +11,8 @@ object Day11 {
     var maxXyz = (0, 0, 0)
     var max = Int.MinValue
 
-    for { z <- 2 to maxSize } {
-      for {
-        x <- 1 to 301 - z
-        y <- 1 to 301 - z
-      } {
+    for (z <- 2 to maxSize) {
+      for (x <- 1 to 301 - z; y <- 1 to 301 - z) {
         val bottomLeft = dp(y + 1)(x)(z - 1)
         val topRight = dp(y)(x + 1)(z - 1)
         val center = dp(y + 1)(x + 1)(z - 2)
