@@ -4,7 +4,7 @@ import org.scalatest.{FunSuite, Matchers}
 
 import scala.io.Source
 
-class DayXTest extends FunSuite with Matchers {
+class DayXTest extends UnitTest {
 
   test("task 1") {
     val data = readFrom("day_.txt")

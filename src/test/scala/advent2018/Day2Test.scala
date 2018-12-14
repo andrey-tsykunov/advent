@@ -1,10 +1,11 @@
 package advent2018.y2018
 
+import advent2018.UnitTest
 import org.scalatest.{FunSuite, Matchers}
 
 import scala.io.Source
 
-class Day2Test extends FunSuite with Matchers {
+class Day2Test extends UnitTest {
 
   import advent2018.Day2._
 

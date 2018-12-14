@@ -4,7 +4,7 @@ import org.scalatest.{FunSuite, Matchers}
 
 import scala.io.Source
 
-class Day6Test extends FunSuite with Matchers {
+class Day6Test extends UnitTest {
 
   import Day6._
 

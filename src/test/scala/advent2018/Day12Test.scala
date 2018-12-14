@@ -2,7 +2,7 @@ package advent2018
 
 import org.scalatest.{FunSuite, Matchers}
 
-class Day12Test extends FunSuite with Matchers {
+class Day12Test extends UnitTest {
 
   import Day12._
 
