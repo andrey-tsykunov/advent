@@ -32,6 +32,6 @@ class Day10Test extends UnitTest {
     Source.fromResource(s"advent2018/$name")
       .getLines()
       .map("""[-\d]+""".r.findAllIn(_).map(_.toInt).toList)
-      .map { case l :: t :: vl :: vt :: Nil => Point(l, t, vl, vt) }
+      .collect { case l :: t :: vl :: vt :: Nil => Point(l, t, vl, vt) }
       .toStream
 }

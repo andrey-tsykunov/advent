@@ -21,10 +21,6 @@ class DayXTest extends UnitTest {
 
   }
 
-  test("task 2 (example)") {
-    val data = "abc"
-  }
-
   private def readFrom(name: String): Seq[String] =
     Source.fromResource(s"advent2018/$name")
       .getLines()
