@@ -6,7 +6,7 @@ import scala.io.Source
 
 class Day7Test extends UnitTest {
 
-  import Day7._
+  import Day7_TheSumofItsParts._
 
   test("task 1") {
     val data = readFrom("day7.txt")

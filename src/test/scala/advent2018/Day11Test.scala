@@ -6,7 +6,7 @@ import scala.io.Source
 
 class Day11Test extends UnitTest {
 
-  import Day11._
+  import Day11_ChronalCharge._
 
   test("task 1") {
     findMaxSquare(1133, maxSize = 3) shouldBe (235,14,3)

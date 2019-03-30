@@ -1,6 +1,6 @@
 package advent2018
 
-object Day11 {
+object Day11_ChronalCharge {
 
   def findMaxSquare(serial: Int, size: Int = 300, minSize: Int = 1, maxSize: Int = 300): (Int, Int, Int) = {
 

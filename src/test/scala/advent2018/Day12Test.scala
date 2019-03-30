@@ -4,7 +4,7 @@ import org.scalatest.{FunSuite, Matchers}
 
 class Day12Test extends UnitTest {
 
-  import Day12._
+  import Day12_SubterraneanSustainability._
 
   test("task 1") {
 

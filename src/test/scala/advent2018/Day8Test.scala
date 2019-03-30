@@ -6,7 +6,7 @@ import scala.io.Source
 
 class Day8Test extends UnitTest {
 
-  import Day8._
+  import Day8_MemoryManeuver._
 
   test("task 1") {
     val data = readFrom("day8.txt")

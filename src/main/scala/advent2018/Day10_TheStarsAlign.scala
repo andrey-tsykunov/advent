@@ -2,7 +2,7 @@ package advent2018
 
 import scala.annotation.tailrec
 
-object Day10 {
+object Day10_TheStarsAlign {
 
   case class Point(left: Int, top: Int, leftVelocity: Int, topVelocity: Int) {
     def next = copy(left = left + leftVelocity, top = top + topVelocity)

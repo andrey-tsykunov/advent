@@ -2,7 +2,7 @@ package advent2018
 
 import scala.annotation.tailrec
 
-object Day5 {
+object Day5_AlchemicalReduction {
 
   def excludeAndReact(s: String): String = {
     ('a' to 'z')

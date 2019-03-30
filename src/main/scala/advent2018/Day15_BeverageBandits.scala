@@ -5,7 +5,7 @@ import java.util
 import scala.annotation.tailrec
 import scala.collection._
 
-object Day15 {
+object Day15_BeverageBandits {
 
   type GameMap = Vector[String]
   type Path = List[Position]

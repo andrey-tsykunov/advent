@@ -2,7 +2,7 @@ package advent2018
 
 import scala.collection.mutable
 
-object Day1 {
+object Day1_ChronalCalibration {
   def resultFrequency(changes: Stream[Int]): Int = changes.sum
 
   def firstDuplicate(changes: Stream[Int]): Int = {

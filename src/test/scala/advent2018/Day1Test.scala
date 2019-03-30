@@ -7,7 +7,7 @@ import scala.io.Source
 
 class Day1Test extends UnitTest {
 
-  import advent2018.Day1._
+  import advent2018.Day1_ChronalCalibration._
 
   test("result freq") {
 

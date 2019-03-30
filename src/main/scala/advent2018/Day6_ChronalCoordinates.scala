@@ -2,7 +2,7 @@ package advent2018
 
 import scala.collection.mutable
 
-object Day6 {
+object Day6_ChronalCoordinates {
 
   case class Coord(left: Int, top: Int) {
     def neighbours: Stream[Coord] = Stream(

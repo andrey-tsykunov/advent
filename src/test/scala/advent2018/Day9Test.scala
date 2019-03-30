@@ -6,7 +6,7 @@ import scala.io.Source
 
 class Day9Test extends UnitTest {
 
-  import Day9._
+  import Day9_MarbleMania._
 
   test("task 1") {
     runGame(419, 72164) shouldBe 423717

@@ -7,7 +7,7 @@ import scala.io.Source
 
 class Day2Test extends UnitTest {
 
-  import advent2018.Day2._
+  import advent2018.Day2_InventoryManagementSystem._
 
   test("task 1") {
     val data = readFrom("day2.txt")

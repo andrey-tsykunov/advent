@@ -2,7 +2,7 @@ package advent2018
 
 import scala.collection.mutable
 
-object Day7  {
+object Day7_TheSumofItsParts  {
 
   type Task = Char
   type Edge = (Task, Task)

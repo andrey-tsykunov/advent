@@ -4,7 +4,7 @@ import scala.io.Source
 
 class Day15Test extends UnitTest {
 
-  import Day15._
+  import Day15_BeverageBandits._
 
   test("task 1") {
     val map = createGame(readFrom("day15.txt"))

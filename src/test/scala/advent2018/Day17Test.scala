@@ -4,7 +4,7 @@ import scala.io.Source
 
 class Day17Test extends UnitTest {
 
-  import Day17._
+  import Day17_ReservoirResearch._
 
   test("task 1 and 2") {
     val data = readFrom("day17.txt")

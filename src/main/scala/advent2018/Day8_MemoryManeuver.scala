@@ -1,6 +1,6 @@
 package advent2018
 
-object Day8 {
+object Day8_MemoryManeuver {
 
   def parse(s: String): Node = {
 

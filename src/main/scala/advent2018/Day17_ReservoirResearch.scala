@@ -2,7 +2,7 @@ package advent2018
 
 import scala.collection.mutable
 
-object Day17 {
+object Day17_ReservoirResearch {
 
   case class ClayLine(xs: List[Int], ys: List[Int])
 

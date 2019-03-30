@@ -2,7 +2,7 @@ package advent2018
 
 import scala.collection.breakOut
 
-object Day2 {
+object Day2_InventoryManagementSystem {
   def count(items: Stream[String]): Int = {
 
     var d2 = 0

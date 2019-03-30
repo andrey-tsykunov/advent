@@ -3,7 +3,7 @@ package advent2018
 import scala.annotation.tailrec
 
 
-object Day18 {
+object Day18_SettlersofTheNorthPole {
 
   def calcResourceValue(map: Seq[String]): (Int, Int) =
     (map.map(row => row.count(_ == '#')).sum, map.map(row => row.count(_ == '|')).sum)

@@ -2,7 +2,7 @@ package advent2018
 
 import scala.annotation.tailrec
 
-object Day13 {
+object Day13_MineCartMadness {
 
   type Grid = Vector[String]
 

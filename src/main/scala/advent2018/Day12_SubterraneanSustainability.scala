@@ -4,7 +4,7 @@ import java.lang.Math.max
 
 import scala.annotation.tailrec
 
-object Day12 {
+object Day12_SubterraneanSustainability {
 
   def simulate(initial: String, times: Long, masks: Set[String]): (String, Long) = {
 

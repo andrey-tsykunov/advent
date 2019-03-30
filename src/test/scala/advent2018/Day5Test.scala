@@ -8,7 +8,7 @@ import scala.io.Source
 
 class Day5Test extends UnitTest {
 
-  import Day5._
+  import Day5_AlchemicalReduction._
 
   test("task 1") {
     val data = readFrom("day5.txt")

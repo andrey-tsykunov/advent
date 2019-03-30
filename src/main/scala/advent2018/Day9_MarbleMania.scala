@@ -1,6 +1,6 @@
 package advent2018
 
-object Day9 {
+object Day9_MarbleMania {
 
   class RingItem private(val value: Int, var previous: RingItem, var next: RingItem) {
     def move(count: Int): RingItem = count match {

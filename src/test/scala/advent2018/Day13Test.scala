@@ -1,13 +1,13 @@
 package advent2018
 
-import advent2018.Day13.{Cart, Grid}
+import advent2018.Day13_MineCartMadness.{Cart, Grid}
 import org.scalatest.{FunSuite, Matchers}
 
 import scala.io.Source
 
 class Day13Test extends UnitTest {
 
-  import Day13._
+  import Day13_MineCartMadness._
 
   test("task 1") {
     val (grid, carts) = readFrom("day13.txt")
