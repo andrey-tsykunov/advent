@@ -25,14 +25,14 @@ class Day1Test extends UnitTest {
 
   test("first dup 2") {
 
-    val r = firstDuplicate2(readFrom("day1.txt"))
+    val r = firstDuplicate_zip(readFrom("day1.txt"))
 
     r shouldBe 81204
   }
 
   test("first dup 3") {
 
-    val r = firstDuplicate3(readFrom("day1.txt"))
+    val r = firstDuplicate_mutable_1(readFrom("day1.txt"))
 
     r shouldBe 81204
   }
