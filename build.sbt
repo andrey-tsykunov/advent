@@ -1,4 +1,4 @@
-name := "Advent 2018"
+name := "Advent"
 
 version := "0.1"
 
