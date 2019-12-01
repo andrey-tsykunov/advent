@@ -1,5 +1,6 @@
 from os import path
 from decimal import Decimal
+import numpy as np
 
 dir_path = path.dirname(path.realpath(__file__))
 
@@ -11,12 +12,31 @@ def read_strings(name):
 
 
 def read_ints(name):
-    return list(map(int, read_strings(name)))
+    return [int(s) for s in read_strings(name)]
+
+
+def read_np_ints(name):
+    return np.array(read_ints(name), dtype=np.int)
+
+
+def read_np_floats(name):
+    return np.array(read_floats(name), dtype=np.float32)
+
+
+def read_np_int_2d(name, split_by=","):
+    a = [s.split(split_by) for s in read_strings(name)]
+    return np.array(a, dtype=np.int)
+
+
+def read_np_float_2d(name, split_by=","):
+    a = [s.split(split_by) for s in read_strings(name)]
+    return np.array(a, dtype=np.float32)
 
 
 def read_floats(name):
-    return list(map(float, read_strings(name)))
+    return [float(s) for s in read_strings(name)]
 
 
 def read_decimals(name):
-    return list(map(Decimal, read_strings(name)))
+    return [Decimal(s) for s in read_strings(name)]
+
