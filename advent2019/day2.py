@@ -13,6 +13,7 @@ def task_2():
 
 
 if __name__ == "__main__":
+    input = read_ints(input_file)
 
     task_1()
 
