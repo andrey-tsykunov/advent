@@ -14,9 +14,6 @@ def task_2():
 
 if __name__ == "__main__":
 
-    d = read_np_float(input_file)
-    print(d)
-
     task_1()
 
     task_2()
