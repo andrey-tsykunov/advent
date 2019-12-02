@@ -94,8 +94,8 @@ object Day15_BeverageBandits {
 
   def makeTurn(input: GameState): (Boolean, GameState) = {
 
-    val positionToCreature = mutable.Map(input.creatures.map(c => c.position -> c):_*)
-    val idToCreature = mutable.Map(input.creatures.map(c => c.id -> c):_*)
+    val positionToCreature = mutable.Map.from(input.creatures.map(c => c.position -> c))
+    val idToCreature = mutable.Map.from(input.creatures.map(c => c.id -> c))
 
     def nextMove(creature: Creature): Option[Position] = {
 

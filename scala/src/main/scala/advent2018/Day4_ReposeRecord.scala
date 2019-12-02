@@ -73,6 +73,6 @@ object Day4 {
         val stats = Array.ofDim[Int](60)
         guardShifts.flatMap(_.sleepIntervals).flatten.foreach { i => stats(i) += 1 }
         stats
-      }.view.force
+      }.view
   }
 }

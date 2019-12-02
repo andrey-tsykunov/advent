@@ -25,7 +25,7 @@ object Day6_ChronalCoordinates {
     def onTheBorder(c: Coord) = c.left == leftMin || c.left == leftMax || c.top == topMin || c.top == topMax
 
     val queue = mutable.Queue.empty[(Coord, CoordProps)]
-    queue.enqueue(visited.toSeq: _*)
+    queue.enqueueAll(visited.toSeq)
 
     while(queue.nonEmpty) {
       val (coord, CoordProps(owner, dist)) = queue.dequeue()

@@ -1,5 +1,7 @@
 package advent2018
 
+import scala.collection.parallel.CollectionConverters._
+
 object Day11_ChronalCharge {
 
   def findMaxSquare(serial: Int, size: Int = 300, minSize: Int = 1, maxSize: Int = 300): (Int, Int, Int) = {
@@ -21,7 +23,7 @@ object Day11_ChronalCharge {
 
       val next = Array.ofDim[Int](size + 1, size + 1)
 
-      (1 to size + 1 - z).toParArray.foreach { x =>
+      (1 to size + 1 - z).par.foreach { x =>
         for (y <- 1 to size + 1 - z) {
           val bottomLeft = dp_1(y + 1)(x)
           val topRight = dp_1(y)(x + 1)

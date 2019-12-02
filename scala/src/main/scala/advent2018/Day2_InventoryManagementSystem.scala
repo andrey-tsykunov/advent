@@ -1,7 +1,5 @@
 package advent2018
 
-import scala.collection.breakOut
-
 object Day2_InventoryManagementSystem {
   def count(items: Stream[String]): Int = {
 

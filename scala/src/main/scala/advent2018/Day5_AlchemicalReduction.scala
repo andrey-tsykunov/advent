@@ -1,12 +1,13 @@
 package advent2018
 
 import scala.annotation.tailrec
+import scala.collection.parallel.CollectionConverters._
 
 object Day5_AlchemicalReduction {
 
   def excludeAndReact(s: String): String = {
     ('a' to 'z')
-      .toParArray
+      .par
       .map { c => react(s.filterNot(_.toLower == c)) }
       .minBy(_.length)
   }
