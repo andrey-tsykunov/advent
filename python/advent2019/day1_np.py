@@ -16,6 +16,18 @@ def fuel_rec(mass):
     return np.sum(f) + np.sum(fuel_rec(f)) if f.size > 0 else 0
 
 
+def fuel_while(mass):
+    r = 0
+
+    m = mass
+    while np.any(m > 0):
+        m = m // 3 - 2
+        m[m < 0] = 0
+        r += sum(m)
+
+    return r
+
+
 if __name__ == "__main__":
     mass = read_np_ints(input_file)
 
@@ -23,7 +35,9 @@ if __name__ == "__main__":
     assert r1 == 3334297
 
     r2 = fuel_rec(mass)
-    print(r2)
     assert r2 == 4998565
+
+    r3 = fuel_while(mass)
+    assert r3 == 4998565
 
 
