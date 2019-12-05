@@ -1,7 +1,7 @@
-package advent2018.y2018
+package advent2018
 
-import advent2018.UnitTest
 import org.scalatest.{FunSuite, Matchers}
+import utils.UnitTest
 
 import scala.io.Source
 

@@ -1,7 +1,6 @@
 package advent2018
 
-import com.typesafe.scalalogging.StrictLogging
-import org.scalatest.{FunSuite, Matchers}
+import utils.UnitTest
 
 import scala.io.Source
 

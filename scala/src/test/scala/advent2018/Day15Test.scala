@@ -1,5 +1,7 @@
 package advent2018
 
+import utils.UnitTest
+
 import scala.io.Source
 
 class Day15Test extends UnitTest {
@@ -350,5 +352,5 @@ class Day15Test extends UnitTest {
   private def readFrom(name: String): Seq[String] =
     Source.fromResource(s"advent2018/$name")
       .getLines()
-      .toStream
+      .toSeq
 }

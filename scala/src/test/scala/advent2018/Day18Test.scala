@@ -1,5 +1,7 @@
 package advent2018
 
+import utils.UnitTest
+
 import scala.io.Source
 
 class Day18Test extends UnitTest {

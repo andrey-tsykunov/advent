@@ -3,6 +3,7 @@ package advent2018
 import java.time.LocalDateTime
 
 import org.scalatest.{FunSuite, Matchers}
+import utils.UnitTest
 
 import scala.io.Source
 

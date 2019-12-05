@@ -1,6 +1,7 @@
 package advent2018
 
 import org.scalatest.{FunSuite, Matchers}
+import utils.UnitTest
 
 class Day12Test extends UnitTest {
 

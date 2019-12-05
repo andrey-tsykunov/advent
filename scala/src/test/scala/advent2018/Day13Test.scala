@@ -2,6 +2,7 @@ package advent2018
 
 import advent2018.Day13_MineCartMadness.{Cart, Grid}
 import org.scalatest.{FunSuite, Matchers}
+import utils.UnitTest
 
 import scala.io.Source
 
