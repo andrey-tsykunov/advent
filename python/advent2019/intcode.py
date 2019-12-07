@@ -101,8 +101,12 @@ def run_circuit(codes, inputs):
     return reduce(lambda o, i: run(codes, [i, o])[-1], inputs, 0)
 
 
+def find_max(codes, input_range, f):
+    return max(f(codes, p) for p in permutations(input_range))
+
+
 def find_max_circuit_output(codes, input_range):
-    return max(run_circuit(codes, p) for p in permutations(input_range))
+    return find_max(codes, input_range, run_circuit)
 
 
 def run_circuit_with_loop(codes, inputs):
@@ -125,4 +129,4 @@ def run_circuit_with_loop(codes, inputs):
 
 
 def find_max_output_with_loop(codes, input_range):
-    return max(run_circuit_with_loop(codes, p) for p in permutations(input_range))
+    return find_max(codes, input_range, run_circuit_with_loop)
