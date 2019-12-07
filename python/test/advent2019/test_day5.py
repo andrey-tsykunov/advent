@@ -1,6 +1,6 @@
 from assertpy import assert_that
 
-from advent2019.day5 import *
+from advent2019.intcode import *
 
 
 def parse_data(data: str):
@@ -17,44 +17,44 @@ def test_parse():
 
 
 def test_part_1():
-    assert_that(run(codes, 1)[-1]).is_equal_to(15508323)
+    assert_that(run(codes, [1])[-1]).is_equal_to(15508323)
 
 
 def test_equals_position():
     codes = parse_data("3,9,8,9,10,9,4,9,99,-1,8")
 
-    assert_that(run(codes, 8)[-1]).is_equal_to(1)
-    assert_that(run(codes, 9)[-1]).is_equal_to(0)
+    assert_that(run(codes, [8])[-1]).is_equal_to(1)
+    assert_that(run(codes, [9])[-1]).is_equal_to(0)
 
 
 def test_less_than_position():
     codes = parse_data("3,9,7,9,10,9,4,9,99,-1,8")
 
-    assert_that(run(codes, 7)[-1]).is_equal_to(1)
-    assert_that(run(codes, 8)[-1]).is_equal_to(0)
+    assert_that(run(codes, [7])[-1]).is_equal_to(1)
+    assert_that(run(codes, [8])[-1]).is_equal_to(0)
 
 
 def test_equals_immediate():
     codes = parse_data("3,3,1108,-1,8,3,4,3,99")
 
-    assert_that(run(codes, 8)[-1]).is_equal_to(1)
-    assert_that(run(codes, 9)[-1]).is_equal_to(0)
+    assert_that(run(codes, [8])[-1]).is_equal_to(1)
+    assert_that(run(codes, [9])[-1]).is_equal_to(0)
 
 
 def test_less_than_immediate():
     codes = parse_data("3,3,1107,-1,8,3,4,3,99")
 
-    assert_that(run(codes, 7)[-1]).is_equal_to(1)
-    assert_that(run(codes, 8)[-1]).is_equal_to(0)
+    assert_that(run(codes, [7])[-1]).is_equal_to(1)
+    assert_that(run(codes, [8])[-1]).is_equal_to(0)
 
 
 def test_part_2_large():
     codes = parse_data("3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99")
 
-    assert_that(run(codes, 7)[-1]).is_equal_to(999)
-    assert_that(run(codes, 8)[-1]).is_equal_to(1000)
-    assert_that(run(codes, 9)[-1]).is_equal_to(1001)
+    assert_that(run(codes, [7])[-1]).is_equal_to(999)
+    assert_that(run(codes, [8])[-1]).is_equal_to(1000)
+    assert_that(run(codes, [9])[-1]).is_equal_to(1001)
 
 
 def test_part_2():
-    assert_that(run(codes, 5)[-1]).is_equal_to(9006327)
+    assert_that(run(codes, [5])[-1]).is_equal_to(9006327)
