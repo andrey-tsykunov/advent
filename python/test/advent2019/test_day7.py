@@ -10,7 +10,7 @@ codes = parse_data("3,8,1001,8,10,8,105,1,0,0,21,42,55,76,89,114,195,276,357,438
 
 
 def test_find_max_output():
-    assert_that(find_max_output(codes, range(5))).is_equal_to(20413)
+    assert_that(find_max_circuit_output(codes, range(5))).is_equal_to(20413)
 
 
 def test_find_max_output_with_loop_simple_1():
@@ -23,3 +23,7 @@ def test_find_max_output_with_loop_simple_2():
     codes = parse_data("3,52,1001,52,-5,52,3,53,1,52,56,54,1007,54,5,55,1005,55,26,1001,54,-5,54,1105,1,12,1,53,54,53,1008,54,0,55,1001,55,1,55,2,53,55,53,4,53,1001,56,-1,56,1005,56,6,99,0,0,0,0,10")
 
     assert_that(find_max_output_with_loop(codes, range(5, 10))).is_equal_to(18216)
+
+
+def test_find_max_output_with_loop():
+    assert_that(find_max_output_with_loop(codes, range(5, 10))).is_equal_to(3321777)

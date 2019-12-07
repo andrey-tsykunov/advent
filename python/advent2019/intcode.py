@@ -1,10 +1,12 @@
 from itertools import permutations
+from functools import reduce
 
 OP_ADD, OP_MULTIPLY = 1, 2
 OP_READ, OP_WRITE = 3, 4
 OP_JUMP_IF_TRUE, OP_JUMP_IF_FALSE = 5, 6
 OP_LESS_THAN, OP_EQUALS = 7, 8
 OP_HALT = 99
+EXIT_HALT, EXIT_INPUT = 0, 1
 
 MODE_POS, MODE_VALUE = 0, 1
 
@@ -20,11 +22,9 @@ def parse(code: int):
     return int(op), modes
 
 
-def run(codes, inputs):
-    codes = codes.copy()
+def resume(codes, inputs, i=0):
 
     outputs = []
-    i = 0
     input_i = 0
     modes = []
 
@@ -56,6 +56,9 @@ def run(codes, inputs):
             set(2, get(0) * get(1))
             i += 3
         elif op == OP_READ:
+            if input_i == len(inputs):
+                return outputs, (codes, i - 1), EXIT_INPUT
+
             set(0, inputs[input_i])
             input_i += 1
             i += 1
@@ -83,33 +86,42 @@ def run(codes, inputs):
         else:
             raise ValueError(f"Invalid op {op} for for instruction {i}")
 
+    return outputs, (codes, i), EXIT_HALT
+
+
+def run(codes, inputs):
+    codes = codes.copy()
+    outputs, _, exit_code = resume(codes, inputs)
+    assert exit_code == EXIT_HALT
     return outputs
 
 
 def run_circuit(codes, inputs):
     print(inputs)
-    output = 0
-    x2 = 0
-    for x1 in inputs:
-        output = run(codes, [x1, x2])[-1]
-        x2 = output
+    return reduce(lambda o, i: run(codes, [i, o])[-1], inputs, 0)
 
-    return output
+
+def find_max_circuit_output(codes, input_range):
+    return max(run_circuit(codes, p) for p in permutations(input_range))
 
 
 def run_circuit_with_loop(codes, inputs):
     print(inputs)
-    output = 0
-    x2 = 0
-    for x1 in inputs:
-        output = run(codes, [x1, x2])[-1]
-        x2 = output
 
-    return output
+    amplifiers = [(codes.copy(), [input], 0) for input in inputs]
 
+    pending_outputs = [0]
 
-def find_max_output(codes, input_range):
-    return max(run_circuit(codes, p) for p in permutations(input_range))
+    a_i = 0
+    while True:
+        codes, a_inputs, i = amplifiers[a_i]
+        pending_outputs, (updated_codes, updated_i), exit_code = resume(codes, a_inputs + pending_outputs, i)
+
+        if exit_code == EXIT_HALT and a_i == len(amplifiers) - 1:
+            return pending_outputs[-1]
+
+        amplifiers[a_i] = (updated_codes, [], updated_i)
+        a_i = (a_i + 1) % len(amplifiers)
 
 
 def find_max_output_with_loop(codes, input_range):
