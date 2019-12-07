@@ -9,7 +9,7 @@ dir_path = path.dirname(path.realpath(__file__))
 def read_strings(file_name):
     file_path = path.join(dir_path, "data", file_name)
     with open(file_path, "r") as f:
-        return f.readlines()
+        return f.read().splitlines()
 
 
 def read_strings_2d(file_name, split_by=","):
