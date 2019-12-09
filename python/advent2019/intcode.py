@@ -5,10 +5,11 @@ OP_ADD, OP_MULTIPLY = 1, 2
 OP_READ, OP_WRITE = 3, 4
 OP_JUMP_IF_TRUE, OP_JUMP_IF_FALSE = 5, 6
 OP_LESS_THAN, OP_EQUALS = 7, 8
+OP_ADJUST_REL_BASE = 9
 OP_HALT = 99
 EXIT_HALT, EXIT_INPUT = 0, 1
 
-MODE_POS, MODE_VALUE = 0, 1
+MODE_POS, MODE_VALUE, MODE_REL = 0, 1, 2
 
 
 def parse(code: int):
@@ -27,24 +28,40 @@ def resume(codes, inputs, i=0):
     outputs = []
     input_i = 0
     modes = []
+    offset = 0
+    mem = { }
 
-    def get(d: int):
-        get_i = i + d
-        if modes[d] == MODE_POS:
-            return codes[codes[get_i]]
-        elif modes[d] == MODE_VALUE:
-            return codes[get_i]
-        else:
-            raise ValueError(f"Invalid mode {modes[d]} for instruction {get_i}")
+    def get_mem(address: int):
+        return codes[address] if address < len(codes) else mem.get(address, 0)
 
-    def set(d: int, v: int):
-        set_i = i + d
-        if modes[d] == MODE_POS:
-            codes[codes[set_i]] = v
-        elif modes[d] == MODE_VALUE:
-            codes[set_i] = v
+    def set_mem(address: int, v: int):
+        if address < len(codes):
+            codes[address] = v
         else:
-            raise ValueError(f"Invalid mode {modes[d]} for instruction {set_i}")
+            mem[address] = v
+
+    def get(di: int):
+        get_i = i + di
+        address = 0
+        if modes[di] == MODE_POS:
+            return get_mem(codes[get_i])
+        elif modes[di] == MODE_REL:
+            return get_mem(offset + codes[get_i])
+        elif modes[di] == MODE_VALUE:
+            return get_mem(get_i)
+        else:
+            raise ValueError(f"Invalid mode {modes[di]} for instruction {get_i}")
+
+    def set(di: int, v: int):
+        set_i = i + di
+        if modes[di] == MODE_POS:
+            set_mem(codes[set_i], v)
+        elif modes[di] == MODE_REL:
+            set_mem(offset + codes[set_i], v)
+        elif modes[di] == MODE_VALUE:
+            set_mem(set_i, v)
+        else:
+            raise ValueError(f"Invalid mode {modes[di]} for instruction {set_i}")
 
     while i < len(codes):
         op, modes = parse(codes[i])
@@ -81,6 +98,9 @@ def resume(codes, inputs, i=0):
         elif op == OP_EQUALS:
             set(2, 1 if get(0) == get(1) else 0)
             i += 3
+        elif op == OP_ADJUST_REL_BASE:
+            offset += get(0)
+            i += 1
         elif op == OP_HALT:
             break
         else:
