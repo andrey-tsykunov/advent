@@ -1,6 +1,7 @@
 from assertpy import assert_that
 
 from advent2019.intcode import *
+from advent2019.day7 import *
 
 
 def parse_data(data: str):
