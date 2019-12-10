@@ -12,6 +12,25 @@ EXIT_HALT, EXIT_INPUT = 0, 1
 MODE_POS, MODE_VALUE, MODE_REL = 0, 1, 2
 
 
+class ProgramState:
+    def __init__(self, program, i=0, offset=0, mem=None):
+        self.program = program
+        self.i = i
+        self.offset = offset
+        self.mem = mem
+        if self.mem is None:
+            self.mem = {}
+
+    def get_mem(self, address: int):
+        return self.program[address] if address < len(self.program) else self.mem.get(address, 0)
+
+    def set_mem(self, address: int, v: int):
+        if address < len(self.program):
+            self.program[address] = v
+        else:
+            self.mem[address] = v
+
+
 def parse(code: int):
     code_str = str(code)
     modes = [MODE_POS, MODE_POS, MODE_POS]
@@ -23,95 +42,88 @@ def parse(code: int):
     return int(op), modes
 
 
-def resume(codes, inputs, i=0):
+def resume(state, inputs):
 
     outputs = []
     input_i = 0
     modes = []
-    offset = 0
-    mem = { }
 
-    def get_mem(address: int):
-        return codes[address] if address < len(codes) else mem.get(address, 0)
-
-    def set_mem(address: int, v: int):
-        if address < len(codes):
-            codes[address] = v
+    def get(arg_num: int):
+        arg_val = state.i + arg_num
+        if modes[arg_num] == MODE_POS:
+            address = state.program[arg_val]
+        elif modes[arg_num] == MODE_REL:
+            address = state.offset + state.program[arg_val]
+        elif modes[arg_num] == MODE_VALUE:
+            address = arg_val
         else:
-            mem[address] = v
+            raise ValueError(f"Invalid mode {modes[arg_num]} for arg {arg_num}")
 
-    def get(di: int):
-        get_i = i + di
-        address = 0
-        if modes[di] == MODE_POS:
-            return get_mem(codes[get_i])
-        elif modes[di] == MODE_REL:
-            return get_mem(offset + codes[get_i])
-        elif modes[di] == MODE_VALUE:
-            return get_mem(get_i)
+        return state.get_mem(address)
+
+    def set(arg_num: int, v: int):
+        arg_val = state.i + arg_num
+        if modes[arg_num] == MODE_POS:
+            address = state.program[arg_val]
+        elif modes[arg_num] == MODE_REL:
+            address = state.offset + state.program[arg_val]
+        elif modes[arg_num] == MODE_VALUE:
+            address = arg_val
         else:
-            raise ValueError(f"Invalid mode {modes[di]} for instruction {get_i}")
+            raise ValueError(f"Invalid mode {modes[arg_num]} for arg {arg_num}")
 
-    def set(di: int, v: int):
-        set_i = i + di
-        if modes[di] == MODE_POS:
-            set_mem(codes[set_i], v)
-        elif modes[di] == MODE_REL:
-            set_mem(offset + codes[set_i], v)
-        elif modes[di] == MODE_VALUE:
-            set_mem(set_i, v)
-        else:
-            raise ValueError(f"Invalid mode {modes[di]} for instruction {set_i}")
+        state.set_mem(address, v)
 
-    while i < len(codes):
-        op, modes = parse(codes[i])
-        i += 1
+    while state.i < len(state.program):
+        op, modes = parse(state.program[state.i])
+        state.i += 1
         if op == OP_ADD:
             set(2, get(0) + get(1))
-            i += 3
+            state.i += 3
         elif op == OP_MULTIPLY:
             set(2, get(0) * get(1))
-            i += 3
+            state.i += 3
         elif op == OP_READ:
             if input_i == len(inputs):
-                return outputs, (codes, i - 1), EXIT_INPUT
+                state.i -= 1
+                return outputs, state, EXIT_INPUT
 
             set(0, inputs[input_i])
             input_i += 1
-            i += 1
+            state.i += 1
         elif op == OP_WRITE:
             outputs.append(get(0))
-            i += 1
+            state.i += 1
         elif op == OP_JUMP_IF_TRUE:
             if get(0) != 0:
-                i = get(1)
+                state.i = get(1)
             else:
-                i += 2
+                state.i += 2
         elif op == OP_JUMP_IF_FALSE:
             if get(0) == 0:
-                i = get(1)
+                state.i = get(1)
             else:
-                i += 2
+                state.i += 2
         elif op == OP_LESS_THAN:
             set(2, 1 if get(0) < get(1) else 0)
-            i += 3
+            state.i += 3
         elif op == OP_EQUALS:
             set(2, 1 if get(0) == get(1) else 0)
-            i += 3
+            state.i += 3
         elif op == OP_ADJUST_REL_BASE:
-            offset += get(0)
-            i += 1
+            state.offset += get(0)
+            state.i += 1
         elif op == OP_HALT:
             break
         else:
-            raise ValueError(f"Invalid op {op} for for instruction {i}")
+            raise ValueError(f"Invalid op {op} for for instruction {state.i}")
 
-    return outputs, (codes, i), EXIT_HALT
+    return outputs, state, EXIT_HALT
 
 
-def run(codes, inputs):
-    codes = codes.copy()
-    outputs, _, exit_code = resume(codes, inputs)
+def run(program, inputs):
+    state = ProgramState(program=program.copy())
+    outputs, _, exit_code = resume(state, inputs)
     assert exit_code == EXIT_HALT
     return outputs
 
@@ -132,19 +144,19 @@ def find_max_circuit_output(codes, input_range):
 def run_circuit_with_loop(codes, inputs):
     print(inputs)
 
-    amplifiers = [(codes.copy(), [input], 0) for input in inputs]
+    amplifiers = [(ProgramState(codes.copy()), [input]) for input in inputs]
 
     pending_outputs = [0]
 
     a_i = 0
     while True:
-        codes, a_inputs, i = amplifiers[a_i]
-        pending_outputs, (updated_codes, updated_i), exit_code = resume(codes, a_inputs + pending_outputs, i)
+        state, a_inputs = amplifiers[a_i]
+        pending_outputs, state, exit_code = resume(state, a_inputs + pending_outputs)
 
         if exit_code == EXIT_HALT and a_i == len(amplifiers) - 1:
             return pending_outputs[-1]
 
-        amplifiers[a_i] = (updated_codes, [], updated_i)
+        amplifiers[a_i] = (state, [])
         a_i = (a_i + 1) % len(amplifiers)
 
 
